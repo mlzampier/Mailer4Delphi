@@ -18,6 +18,7 @@ type
     fSSL: Boolean;
     fTLS: Boolean;
     fAuthentication: Boolean;
+    fCharSet: string;
     fFromName: string;
     fFromAddress: string;
     fReplyToName: string;
@@ -38,6 +39,7 @@ type
     function IsWithSSL: Boolean;
     function IsWithTLS: Boolean;
     function IsWithAuthentication: Boolean;
+    function GetCharSet: string;
     function GetFromName: string;
     function GetFromAddress: string;
     function GetReplyToName: string;
@@ -63,6 +65,7 @@ type
     function UsingSSL(const value: Boolean = True): IMailer;
     function UsingTLS(const value: Boolean = True): IMailer;
     function AuthenticationRequired(const value: Boolean = True): IMailer;
+    function CharSet(const value: string): IMailer;
 
     function From(const name, address: string): IMailer;
     function ReplyTo(const name, address: string): IMailer;
@@ -109,6 +112,12 @@ begin
   Result := Self;
 end;
 
+function TBaseMailer.CharSet(const value: string): IMailer;
+begin
+  fCharSet := value;
+  Result := Self;
+end;
+
 function TBaseMailer.AskForConfirmation(const value: Boolean): IMailer;
 begin
   fConfirmation := value;
@@ -125,6 +134,7 @@ begin
   fSSL := False;
   fTLS := False;
   fAuthentication := False;
+  fCharSet := 'utf-8';
   fFromName := EmptyStr;
   fFromAddress := EmptyStr;
   fToRecipient := TStringList.Create;
@@ -167,6 +177,11 @@ end;
 function TBaseMailer.GetCcRecipients: TStringList;
 begin
   Result := fCcRecipient;
+end;
+
+function TBaseMailer.GetCharSet: string;
+begin
+  Result := fCharSet;
 end;
 
 function TBaseMailer.IsWithConfirmation: Boolean;
