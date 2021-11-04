@@ -19,6 +19,7 @@ type
     function UsingSSL(const value: Boolean = True): IMailer;
     function UsingTLS(const value: Boolean = True): IMailer;
     function AuthenticationRequired(const value: Boolean = True): IMailer;
+    function CharSet(const value: string): IMailer;
 
     function From(const name, address: string): IMailer;
     function ReplyTo(const name, address: string): IMailer;
