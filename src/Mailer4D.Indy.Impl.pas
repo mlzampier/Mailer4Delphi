@@ -64,14 +64,18 @@ end;
 
 procedure TIndyMailer.AddBody(const msg: TIdMessage);
 var
+  ContentType: string;
   body: TIdText;
 begin
   body := TIdText.Create(msg.MessageParts);
   body.Body.Text := GetMessage.Text;
   if IsWithHTML then
-    body.ContentType := 'text/html'
+    ContentType := 'text/html'
   else
-    body.ContentType := 'text/plain';
+    ContentType := 'text/plain';
+  if GetCharSet <> '' then
+    ContentType := ContentType + '; charset=' + GetCharSet;
+  body.ContentType := ContentType;
 end;
 
 procedure TIndyMailer.AddCcRecipients(const msg: TIdMessage);
@@ -153,6 +157,7 @@ begin
         msg.Date := Now;
         msg.Subject := GetSubject;
         msg.ContentType := 'multipart/mixed';
+        msg.CharSet := GetCharSet;
 
         AddToRecipients(msg);
         AddCcRecipients(msg);
